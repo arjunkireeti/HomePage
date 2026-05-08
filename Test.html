@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IAM Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+/* Header */
+header {
+    background: #1f2d3d;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+}
+
+/* Layout */
+.container {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #2c3e50;
+    color: white;
+    height: 100vh;
+    padding-top: 20px;
+}
+
+.sidebar h3 {
+    text-align: center;
+}
+
+.sidebar button {
+    width: 90%;
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    background: #34495e;
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #1abc9c;
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Cards */
+.card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+}
+
+/* Inputs */
+input, select {
+    padding: 8px;
+    margin: 5px;
+}
+
+button.add-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    IAM Dashboard - 23rd March Batch
+</header>
+
+<div class="container">
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h3>Menu</h3>
+    <button onclick="showDashboard()">Dashboard</button>
+    <button onclick="showUsers()">User Management</button>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="card">
+        <h2>Welcome</h2>
+        <p>Hello 23rd March Batch 👋</p>
+        <p>Total Users: <span id="totalUsers"></span></p>
+    </div>
+
+    <!-- User Management -->
+    <div id="usersSection" class="card" style="display:none;">
+        <h2>User Management</h2>
+
+        <input type="text" id="username" placeholder="User Name">
+        
+        <select id="role">
+            <option>Admin</option>
+            <option>User</option>
+            <option>Manager</option>
+        </select>
+
+        <select id="status">
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
+
+        <button class="add-btn" onclick="addUser()">Add User</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+
+<script>
+
+let users = [
+    {name:"Arjun", role:"Admin", status:"Active"},
+    {name:"Akhil", role:"User", status:"Active"},
+    {name:"Madhav", role:"Manager", status:"Inactive"},
+    {name:"Pavan", role:"User", status:"Active"},
+    {name:"Keshav", role:"User", status:"Active"},
+    {name:"Ashish", role:"Manager", status:"Inactive"},
+    {name:"Sai Kiran", role:"Admin", status:"Active"},
+    {name:"Sumith", role:"User", status:"Active"},
+    {name:"Eswar", role:"User", status:"Active"},
+    {name:"Amaye", role:"Manager", status:"Inactive"},
+    {name:"Nidish", role:"User", status:"Active"},
+    {name:"Adwaith", role:"User", status:"Active"}
+];
+
+function showDashboard() {
+    document.getElementById("dashboard").style.display = "block";
+    document.getElementById("usersSection").style.display = "none";
+    document.getElementById("totalUsers").innerText = users.length;
+}
+
+function showUsers() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("usersSection").style.display = "block";
+    renderTable();
+}
+
+function renderTable() {
+    let tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+
+    users.forEach((user, index) => {
+        tbody.innerHTML += `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${user.name}</td>
+            <td>${user.role}</td>
+            <td>${user.status}</td>
+        </tr>`;
+    });
+}
+
+function addUser() {
+    let name = document.getElementById("username").value.trim();
+    let role = document.getElementById("role").value;
+    let status = document.getElementById("status").value;
+
+    if(name === "") {
+        alert("Enter user name");
+        return;
+    }
+
+    users.push({name, role, status});
+    document.getElementById("username").value = "";
+    renderTable();
+    showDashboard();
+}
+
+// Initialize
+showDashboard();
+
+</script>
+
+</body>
+</html>
